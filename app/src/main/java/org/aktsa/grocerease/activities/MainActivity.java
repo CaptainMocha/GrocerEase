@@ -28,7 +28,6 @@ import org.json.JSONException;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,10 +66,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchScannerActivity() {
-//        Intent intent = new Intent(this, ScannerActivity.class);
-//        startActivityForResult(intent, SCAN_REQUEST);
-        Map<String, Object> map = Constants.createMap();
-        showProduct(map);
+        try {
+//          Intent intent = new Intent(this, ScannerActivity.class);
+//          startActivityForResult(intent, SCAN_REQUEST);
+            Map<String, Object> map = Constants.createMap();
+            showProduct(map);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -112,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         task.execute(query);
     }
 
-    private void showProduct(Map<String, Object> product) {
+    private void showProduct(Map<String, Object> product) throws JSONException {
         Type listType = new TypeToken<List<String>>() {
         }.getType();
 
@@ -139,12 +142,7 @@ public class MainActivity extends AppCompatActivity {
         String servingSize = (String) product.get("serving_size");
         Double servings = toDouble(product.get("servings"));
         JSONArray sizeJson = (JSONArray) product.get("size");
-        String size = null;
-        try {
-            size = sizeJson.get(0).toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String size = sizeJson.get(0).toString();
         Double sodium = toDouble(product.get("sodium"));
         Double sugars = toDouble(product.get("sugars"));
         Double totalCarb = toDouble(product.get("total_carb"));
@@ -173,6 +171,28 @@ public class MainActivity extends AppCompatActivity {
                 return (double) o;
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     protected class FactualRetrievalTask extends AsyncTask<Query, Integer, List<ReadResponse>> {
@@ -206,30 +226,12 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(List<ReadResponse> responses) {
             ReadResponse response = responses.get(0);
             Map<String, Object> product = response.getData().get(0);
-            showProduct(product);
+            try {
+                showProduct(product);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             progressDialog.dismiss();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
