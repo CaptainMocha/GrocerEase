@@ -1,0 +1,51 @@
+<resources>
+
+    <style name="Theme.GrocerEase" parent="Base.Theme.GrocerEase"/>
+
+    <style name="Theme.GrocerEase.Overlay" parent="Base.Theme.GrocerEase.Overlay"/>
+
+    <style name="Base.Theme.GrocerEase" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="Base.Theme.GrocerEase.Overlay" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/Theme.GrocerEase.ActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/Theme.GrocerEase.ActionBar</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="Theme.GrocerEase.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:background">@null</item>
+        <!-- Support library compatibility -->
+        <item name="background">@null</item>
+    </style>
+
+    <style name="RedButton" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@color/red</item>
+    </style>
+
+    <style name="OrangeButton" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@color/orange</item>
+    </style>
+
+    <style name="YellowButton" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@color/yellow</item>
+    </style>
+
+    <style name="GreenButton" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@color/green</item>
+    </style>
+
+    <style name="BlueButton" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@color/blue</item>
+    </style>
+
+    <style name="PurpleButton" parent="Widget.AppCompat.Button">
+        <item name="colorButtonNormal">@color/purple</item>
+    </style>
+</resources>
